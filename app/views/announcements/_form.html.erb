@@ -29,13 +29,10 @@
 
   <div class="field">
     <%= form.label :category_id %>
-    <%= form.text_field :category_id, id: :announcement_category_id %>
+    <%= form.select :category_id, Category.all.collect {|category| [category.description, category.id]} %>
   </div>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :announcement_user_id %>
-  </div>
+  <%= form.file_field :avatars, multiple: true %>
 
   <div class="actions">
     <%= form.submit %>

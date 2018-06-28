@@ -5,10 +5,7 @@
   <%= @announcement.title %>
 </p>
 
-<p>
-  <strong>,:</strong>
-  <%= @announcement., %>
-</p>
+
 
 <p>
   <strong>Description:</strong>
@@ -29,6 +26,7 @@
   <strong>User:</strong>
   <%= @announcement.user_id %>
 </p>
+
 
 <%= link_to 'Edit', edit_announcement_path(@announcement) %> |
 <%= link_to 'Back', announcements_path %>
