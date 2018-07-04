@@ -19,14 +19,52 @@
 
 <p>
   <strong>Category:</strong>
-  <%= @announcement.category_id %>
+  <%= @announcement.category.description %>
 </p>
 
 <p>
   <strong>User:</strong>
-  <%= @announcement.user_id %>
+  <%= @announcement.user.name %>
 </p>
+<% @announcement.avatars.each do |avatar| %>
+  <%= image_tag (avatar.url) unless avatar.file.nil? %>
+  <%break%>
+<% end %>
+<% if can? :manage, @announcement %>
+  <td><%= link_to '', edit_announcement_path(@announcement), class: 'btn glyphicon glyphicon-wrench' %></td>
+  <td><%= link_to '', @announcement, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn glyphicon glyphicon-trash' %></td>
+<% end %>
+
+<p>
+  <strong>ANUNCIOS RELACIONADOS:</strong>
+
+</p>
+<div class="row">
+<% Announcement.all.each do |an| %>
+  <% if @announcement.category ==  an.category && @announcement.id != an.id%>
+
+          <div class="col-xs-8">
+        <p>
+          <strong>Title:</strong>
+          <a href="../announcements/<%= an.id %>"><%= an.title %></a>
+        </p>
+          </div>
 
 
-<%= link_to 'Edit', edit_announcement_path(@announcement) %> |
+            <div class="col-xs-8">
+        <% an.avatars.each do |avatar| %>
+          <%= image_tag (avatar.thumb.url) unless avatar.file.nil? %>
+        <% end %>
+            </div>
+
+              <div class="col-xs-8">
+        <p>
+          <strong>Anunciante:</strong>
+          <%= an.user.name %>
+        </p>
+          </div>
+
+  <%end%>
+<%end%>
+</div>
 <%= link_to 'Back', announcements_path %>

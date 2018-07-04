@@ -49,6 +49,8 @@ end
 gem "mini_magick"
 gem 'carrierwave', '~> 1.0'
 
+gem 'cancancan', '~> 2.0'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'

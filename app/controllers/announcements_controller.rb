@@ -1,5 +1,7 @@
 class AnnouncementsController < ApplicationController
   before_action :set_announcement, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: :homepage
+  # load_and_authorize_resource :except => [:homepage]
 
   # GET /announcements
   # GET /announcements.json
@@ -7,9 +9,21 @@ class AnnouncementsController < ApplicationController
     @announcements = Announcement.all
   end
 
+  def homepage
+    @announcements = Announcement.all.order("view DESC")
+
+    @announcements = @announcements.where(category: params[:category_id]) unless params[:category_id].blank?
+    @announcements = @announcements.where("UPPER(description) like ?", "%#{params[:search_term].to_s.upcase}%") unless params[:search_term].blank? end
   # GET /announcements/1
   # GET /announcements/1.json
   def show
+    @ads = Announcement.find(params[:id])
+    if (@ads.view.nil?)
+      @viewn = 1
+    else
+      @viewn = @ads.view + 1
+    end
+    Announcement.all.update(@ads.id, :view => @viewn)
   end
 
   # GET /announcements/new

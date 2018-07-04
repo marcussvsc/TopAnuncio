@@ -1,17 +1,28 @@
-<%= title "Homepage Blogao" %>
+<%= title "Homepage Top Anuncio" %>
 
 <div class="row">
   <div class="col-xs-8">
 
-    <% @posts.each do |post| %>
-      <h2><%= post.title %></h2>
-      <h3><%= post.subject %></h3>
-      <h3>Category: <%= post.category.description %></h3>
-      <p><%= postText post.text %></p>
-      <strong>Autor: <%= post.author.name %></strong>
-      <%= image_tag(post.author.profile.thumb.url) unless post.author.profile.file.nil? %>
-      <h4><%= post.created_at %></h4>
+    <% @announcements.each do |announcement| %>
+      <li class="list-group-item">
+      <h2><%= link_to announcement.title, announcement %></h2>
+      <h3><%= announcement.description %></h3>
+      <h3>Category: <%= announcement.category.description %></h3>
+      <h3>Views: <%=announcement.view %></h3>
+
+
+        <% announcement.avatars.each do |avatar| %>
+          <%= image_tag (avatar.thumb.url) unless avatar.file.nil? %>
+          <%break%>
+        <% end %>
+
+      <% if can? :manage, announcement %>
+        <td><%= link_to '', edit_announcement_path(announcement), class: 'btn glyphicon glyphicon-wrench' %></td>
+        <td><%= link_to '', announcement, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn glyphicon glyphicon-trash' %></td>
+      <% end %>
+
       <hr/>
+      </li>
     <% end %>
   </div>
 
@@ -22,9 +33,10 @@
       </div>
       <div class="panel-body">
         <ul>
+          <li><%=link_to "TODAS AS CATEGORIAS", homepage_announcements_path() %></li>
             <% Category.all.each do |category| %>
               <li>
-                <%= link_to category.description, homepage_posts_path(category_id: category.id) %>
+                <%= link_to category.description, homepage_announcements_path(category_id: category.id) %>
               </li>
             <% end %>
         </ul>
@@ -37,7 +49,7 @@
         <h3 class="panel-title">Search</h3>
       </div>
       <div class="panel-body">
-        <%= form_tag("/posts/homepage", method: "post") do %>
+        <%= form_tag("/announcements/homepage", method: "post") do %>
           <%= text_field_tag(:search_term) %>
           <%= submit_tag("Search") %>
         <% end %>

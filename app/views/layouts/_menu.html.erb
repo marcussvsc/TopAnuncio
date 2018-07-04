@@ -8,13 +8,12 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/">TopAnuncio</a>
+
     </div>
-    <div id="navbar" class="navbar-collapse collapse">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-
-
-
-
+        <%= nav_link 'Gerenciar anúncios', announcements_path %>
+        <%= nav_link 'Criar novo anúncio', new_announcement_path %>
       </ul>
 
       <p class="navbar-text pull-right">
